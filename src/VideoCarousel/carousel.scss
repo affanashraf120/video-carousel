@@ -1,0 +1,267 @@
+$s-opacity: 0.4;
+$s-opacity-sm: 0.6;
+
+@mixin overlay($opacity, $z-index) {
+  background-color: black;
+  opacity: $opacity;
+  position: absolute;
+  z-index: $z-index;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+}
+
+@mixin level-2($left, $left-sm) {
+  background-color: black;
+  position: absolute;
+  z-index: 3;
+  width: 30%;
+  height: 45%;
+  top: 35%;
+  left: $left;
+
+  > span {
+    @include overlay($s-opacity, 4);
+  }
+
+  @media (max-width: 576px) {
+    @include level-2-sm($left-sm);
+  }
+}
+@mixin level-2-sm($left-sm) {
+  width: 30%;
+  height: 30%;
+  left: $left-sm;
+  top: 40%;
+}
+//
+@mixin level-3($left) {
+  background-color: black;
+  position: absolute;
+  z-index: 1;
+  width: 20%;
+  height: 30%;
+  top: 45%;
+  left: $left;
+
+  > span {
+    @include overlay($s-opacity-sm, 2);
+  }
+
+  @media (max-width: 576px) {
+    display: none;
+    > span {
+      display: none;
+    }
+  }
+}
+//
+.top-slide {
+  background-color: black;
+  position: absolute;
+  z-index: 5;
+
+  width: 50%;
+  height: 75%;
+
+  left: 25%;
+  top: 15%;
+
+  > span {
+    display: none;
+  }
+
+  @media (max-width: 576px) {
+    width: 80%;
+    height: 40%;
+    top: 35%;
+    left: 10%;
+  }
+}
+
+.left-slide {
+  @include level-2(15%, 5%);
+}
+
+.right-slide {
+  @include level-2(55%, 65%);
+}
+
+.left-slide-sm {
+  @include level-3(10%);
+}
+
+.right-slide-sm {
+  @include level-3(70%);
+}
+
+// Animations
+@mixin animate($name) {
+  animation: $name;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes bright {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes dark {
+  to {
+    opacity: $s-opacity;
+  }
+}
+@keyframes dark-sm {
+  to {
+    opacity: $s-opacity-sm;
+  }
+}
+// Level 2
+@keyframes ctl {
+  to {
+    @include level-2(15%, 5%);
+  }
+}
+@keyframes ctl-sm {
+  to {
+    @include level-2-sm(5%);
+  }
+}
+@keyframes ctr {
+  to {
+    @include level-2(55%, 65%);
+  }
+}
+@keyframes ctr-sm {
+  to {
+    @include level-2-sm(65%);
+  }
+}
+//Level 3
+@keyframes ltls {
+  to {
+    @include level-3(10%);
+  }
+}
+@keyframes lstl {
+  to {
+    @include level-2(15%, 5%);
+  }
+}
+@keyframes rtrs {
+  to {
+    @include level-3(70%);
+  }
+}
+@keyframes rstr {
+  to {
+    @include level-2(55%, 65%);
+  }
+}
+// Center
+@keyframes tc {
+  to {
+    position: absolute;
+    z-index: 5;
+    width: 50%;
+    height: 75%;
+    left: 25%;
+    top: 15%;
+    > div {
+      display: none;
+    }
+  }
+}
+@keyframes tc-sm {
+  to {
+    position: absolute;
+    z-index: 5;
+    width: 80%;
+    height: 30%;
+    top: 40%;
+    left: 10%;
+    > div {
+      display: none;
+    }
+  }
+}
+.center-to-left {
+  @media (max-width: 576px) {
+    @include animate(ctl-sm);
+  }
+  @include animate(ctl);
+}
+.center-to-right {
+  @media (max-width: 576px) {
+    @include animate(ctr-sm);
+  }
+  @include animate(ctr);
+}
+.to-center {
+  @media (max-width: 576px) {
+    @include animate(tc-sm);
+  }
+  @include animate(tc);
+}
+//
+.left-to-left-sm {
+  @media (min-width: 577px) {
+    @include animate(ltls);
+  }
+}
+.left-sm-to-left {
+  @media (min-width: 577px) {
+    @include animate(lstl);
+  }
+}
+.right-to-right-sm {
+  @media (min-width: 577px) {
+    @include animate(rtrs);
+  }
+}
+.right-sm-to-right {
+  @media (min-width: 577px) {
+    @include animate(rstr);
+  }
+}
+//
+.brighten {
+  @include animate(bright);
+}
+.darken {
+  @include animate(dark);
+}
+.darken-sm {
+  @include animate(dark-sm);
+}
+.fade-in {
+  @include animate(fade);
+}
+
+.arrow-btn {
+  outline: none;
+  border: none;
+  background: rgba($color: #000000, $alpha: 1);
+  transition: background 0.5s;
+  color: white;
+  width: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem;
+  font-size: x-large;
+
+  &:hover {
+    background: rgba($color: white, $alpha: 0.3);
+  }
+}
+
