@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import ReactPlayer from "react-player/lazy";
-import "./carousel.scss";
 import classnames from "classnames";
+import React, { useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import ReactPlayer from "react-player/lazy";
 import { useSwipeable } from "react-swipeable";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import "./carousel.scss";
 
 const CustomCarousel = ({ urls }) => {
   const [previousAnimate, setPreviousAnimate] = useState(false);
@@ -20,7 +20,7 @@ const CustomCarousel = ({ urls }) => {
     trackTouch: true,
   });
 
-  const settings = {
+  const styles = {
     width: "100%",
     height: "100%",
     style: {
@@ -37,7 +37,7 @@ const CustomCarousel = ({ urls }) => {
     };
   };
 
-  const moveNext = (size) => {
+  const setNextPositions = (size) => {
     setPositions((positions) => [
       ...positions.map((pos) => {
         return pos + 1 === size ? 0 : pos + 1;
@@ -45,7 +45,7 @@ const CustomCarousel = ({ urls }) => {
     ]);
   };
 
-  const movePrevious = (size) => {
+  const setPreviousPositions = (size) => {
     setPositions((positions) => [
       ...positions.map((pos) => {
         return pos - 1 < 0 ? size - 1 : pos - 1;
@@ -58,7 +58,7 @@ const CustomCarousel = ({ urls }) => {
       setNextAnimate(true);
       setTimeout(() => {
         setNextAnimate(false);
-        moveNext(urls.length);
+        setNextPositions(urls.length);
       }, 500);
     }
   };
@@ -68,8 +68,16 @@ const CustomCarousel = ({ urls }) => {
       setPreviousAnimate(true);
       setTimeout(() => {
         setPreviousAnimate(false);
-        movePrevious(urls.length);
+        setPreviousPositions(urls.length);
       }, 500);
+    }
+  };
+
+  const arrowKeysHandler = (e) => {
+    if (e.key === "ArrowLeft") {
+      handlePrevious();
+    } else if (e.key === "ArrowRight") {
+      handleNext();
     }
   };
 
@@ -78,22 +86,10 @@ const CustomCarousel = ({ urls }) => {
       className="bg-black d-flex flex-column align-items-center w-100 h-75"
       {...handlers}
       tabIndex="0"
-      onKeyDown={(e) => {
-        if (e.key === "ArrowLeft") {
-          handlePrevious();
-        } else if (e.key === "ArrowRight") {
-          handleNext();
-        }
-      }}
+      onKeyDown={arrowKeysHandler}
     >
       <div
-        className={classnames(
-          "position-relative",
-          // "bg-white",
-          "w-100",
-          // "h-100",
-          "shadow"
-        )}
+        className={classnames("position-relative", "w-100", "shadow")}
         style={{ height: "90%" }}
       >
         {/* Level 1 */}
@@ -104,7 +100,7 @@ const CustomCarousel = ({ urls }) => {
           })}
         >
           <ReactPlayer
-            {...settings}
+            {...styles}
             controls={true}
             playing={true}
             url={urls[positions[0]].url}
@@ -123,7 +119,7 @@ const CustomCarousel = ({ urls }) => {
           })}
           onClick={handleNext}
         >
-          <ReactPlayer {...settings} {...getUrl(urls[positions[1]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[positions[1]])} />
           <span
             className={classnames({
               brighten: nextAnimate,
@@ -137,7 +133,7 @@ const CustomCarousel = ({ urls }) => {
           })}
           onClick={handlePrevious}
         >
-          <ReactPlayer {...settings} {...getUrl(urls[positions[4]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[positions[4]])} />
           <span
             className={classnames({
               brighten: previousAnimate,
@@ -151,7 +147,7 @@ const CustomCarousel = ({ urls }) => {
             "right-sm-to-right": previousAnimate,
           })}
         >
-          <ReactPlayer {...settings} {...getUrl(urls[positions[3]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[positions[3]])} />
           <span></span>
         </div>
         <div
@@ -160,7 +156,7 @@ const CustomCarousel = ({ urls }) => {
             "fade-in": previousAnimate,
           })}
         >
-          <ReactPlayer {...settings} {...getUrl(urls[positions[2]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[positions[2]])} />
           <span></span>
         </div>
       </div>
