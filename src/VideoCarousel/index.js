@@ -8,7 +8,14 @@ import "./carousel.scss";
 const CustomCarousel = ({ urls }) => {
   const [previousAnimate, setPreviousAnimate] = useState(false);
   const [nextAnimate, setNextAnimate] = useState(false);
-  const [positions, setPositions] = useState([0, 1, 2, 3, 4]);
+
+  const [pos, setPos] = useState({
+    top: 0,
+    left: urls.length - 1,
+    right: 1,
+    leftSm: urls.length - 2,
+    rightSm: 2,
+  });
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
@@ -38,19 +45,31 @@ const CustomCarousel = ({ urls }) => {
   };
 
   const setNextPositions = (size) => {
-    setPositions((positions) => [
-      ...positions.map((pos) => {
-        return pos + 1 === size ? 0 : pos + 1;
-      }),
-    ]);
+    //
+    setPos((pre) => {
+      return {
+        top: pre.left,
+        left: pre.leftSm,
+        right: pre.top,
+        rightSm: pre.right,
+        //
+        leftSm: pre.leftSm - 1 < 0 ? size - 1 : pre.leftSm - 1,
+      };
+    });
   };
 
   const setPreviousPositions = (size) => {
-    setPositions((positions) => [
-      ...positions.map((pos) => {
-        return pos - 1 < 0 ? size - 1 : pos - 1;
-      }),
-    ]);
+    //
+    setPos((pre) => {
+      return {
+        top: pre.right,
+        left: pre.top,
+        right: pre.rightSm,
+        leftSm: pre.left,
+        //
+        rightSm: pre.rightSm + 1 === size ? 0 : pre.rightSm + 1,
+      };
+    });
   };
 
   const handleNext = () => {
@@ -89,7 +108,7 @@ const CustomCarousel = ({ urls }) => {
       onKeyDown={arrowKeysHandler}
     >
       <div
-        className={classnames("position-relative", "w-100", "shadow")}
+        className={classnames("position-relative", "w-100")}
         style={{ height: "90%" }}
       >
         {/* Level 1 */}
@@ -103,7 +122,7 @@ const CustomCarousel = ({ urls }) => {
             {...styles}
             controls={true}
             playing={true}
-            url={urls[positions[0]].url}
+            url={urls[pos.top]}
           />
           <span
             className={classnames({
@@ -112,6 +131,7 @@ const CustomCarousel = ({ urls }) => {
           ></span>
         </div>
         {/* Level 2 */}
+        {/* Left */}
         <div
           className={classnames("left-slide shadow-lg", {
             "to-center": nextAnimate,
@@ -119,13 +139,14 @@ const CustomCarousel = ({ urls }) => {
           })}
           onClick={handleNext}
         >
-          <ReactPlayer {...styles} {...getUrl(urls[positions[1]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[pos.left])} />
           <span
             className={classnames({
               brighten: nextAnimate,
             })}
           ></span>
         </div>
+        {/* Right */}
         <div
           className={classnames("right-slide shadow-lg", {
             "to-center": previousAnimate,
@@ -133,7 +154,7 @@ const CustomCarousel = ({ urls }) => {
           })}
           onClick={handlePrevious}
         >
-          <ReactPlayer {...styles} {...getUrl(urls[positions[4]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[pos.right])} />
           <span
             className={classnames({
               brighten: previousAnimate,
@@ -141,22 +162,24 @@ const CustomCarousel = ({ urls }) => {
           ></span>
         </div>
         {/* Level 3 */}
-        <div
-          className={classnames("right-slide-sm shadow-lg", {
-            "fade-in": nextAnimate,
-            "right-sm-to-right": previousAnimate,
-          })}
-        >
-          <ReactPlayer {...styles} {...getUrl(urls[positions[3]])} />
-          <span></span>
-        </div>
+        {/* Left-sm */}
         <div
           className={classnames("left-slide-sm shadow-lg", {
             "left-sm-to-left": nextAnimate,
             "fade-in": previousAnimate,
           })}
         >
-          <ReactPlayer {...styles} {...getUrl(urls[positions[2]])} />
+          <ReactPlayer {...styles} {...getUrl(urls[pos.leftSm])} />
+          <span></span>
+        </div>
+        {/* Right-sm */}
+        <div
+          className={classnames("right-slide-sm shadow-lg", {
+            "fade-in": nextAnimate,
+            "right-sm-to-right": previousAnimate,
+          })}
+        >
+          <ReactPlayer {...styles} {...getUrl(urls[pos.rightSm])} />
           <span></span>
         </div>
       </div>
