@@ -1,3 +1,4 @@
+import ReactPlayer from "react-player";
 import CustomCarousel from "./VideoCarousel";
 import "./VideoCarousel/carousel.scss";
 
@@ -6,7 +7,7 @@ const getDumyImageUrl = (txt) => {
   const format = ".png";
   const bg_color = "10283F";
   const txt_color = "FFFFFF";
-  const size = "50";
+  const size = "500";
   const character = txt.toLocaleUpperCase().charAt(0);
   return `${url}/${size}${format}/${bg_color}/${txt_color}?text=${character}`;
 };

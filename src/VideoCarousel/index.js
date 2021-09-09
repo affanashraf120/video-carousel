@@ -107,6 +107,7 @@ const CustomCarousel = ({ urls }) => {
       tabIndex="0"
       onKeyDown={arrowKeysHandler}
     >
+     
       <div
         className={classnames("position-relative", "w-100")}
         style={{ height: "90%" }}
@@ -120,9 +121,10 @@ const CustomCarousel = ({ urls }) => {
         >
           <ReactPlayer
             {...styles}
+            light={false}
             controls={true}
             playing={true}
-            url={urls[pos.top]}
+            url={urls[pos.top].url}
           />
           <span
             className={classnames({
