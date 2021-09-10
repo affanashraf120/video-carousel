@@ -12,6 +12,29 @@ $s-opacity-sm: 0.6;
   left: 0%;
 }
 
+.top-slide {
+  background-color: black;
+  position: absolute;
+  z-index: 5;
+
+  width: 50%;
+  height: 75%;
+
+  left: 25%;
+  top: 15%;
+
+  > span {
+    display: none;
+  }
+
+  @media (max-width: 576px) {
+    width: 80%;
+    height: 60%;
+    top: 25%;
+    left: 10%;
+  }
+}
+
 @mixin level-2($left, $left-sm) {
   background-color: black;
   position: absolute;
@@ -57,28 +80,6 @@ $s-opacity-sm: 0.6;
   }
 }
 //
-.top-slide {
-  background-color: black;
-  position: absolute;
-  z-index: 5;
-
-  width: 50%;
-  height: 75%;
-
-  left: 25%;
-  top: 15%;
-
-  > span {
-    display: none;
-  }
-
-  @media (max-width: 576px) {
-    width: 80%;
-    height: 40%;
-    top: 35%;
-    left: 10%;
-  }
-}
 
 .left-slide {
   @include level-2(15%, 5%);
@@ -185,8 +186,8 @@ $s-opacity-sm: 0.6;
     position: absolute;
     z-index: 5;
     width: 80%;
-    height: 30%;
-    top: 40%;
+    height: 60%;
+    top: 25%;
     left: 10%;
     > div {
       display: none;
@@ -264,4 +265,3 @@ $s-opacity-sm: 0.6;
     background: rgba($color: white, $alpha: 0.3);
   }
 }
-
