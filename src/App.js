@@ -14,23 +14,19 @@ const getDumyImageUrl = (txt) => {
 
 const urls = [
   {
-    url: "https://www.youtube.com/watch?v=IaPi9igUngM",
-    thumbnail: getDumyImageUrl("Text tunmbnail"),
+    url: "https://www.youtube.com/watch?v=SMKPKGW083c",
   },
   {
-    url: "https://www.youtube.com/watch?v=8X3zspEbuKM",
+    url: "https://www.youtube.com/watch?v=YTJg8q9Q940",
   },
   {
-    url: "https://www.youtube.com/watch?v=1ztxeu4uH7o",
+    url: "https://www.youtube.com/watch?v=_m4MHlQHESo",
   },
   {
-    url: "https://www.youtube.com/watch?v=mvnPBzlhdiw",
+    url: "https://www.youtube.com/watch?v=7jUW96CiEKA",
   },
   {
-    url: "https://www.youtube.com/watch?v=VWwq3ZfVYd8",
-  },
-  {
-    url: "https://www.youtube.com/watch?v=6-PJi9B74C4",
+    url: "https://www.youtube.com/watch?v=JkaxUblCGz0",
   },
 ];
 
