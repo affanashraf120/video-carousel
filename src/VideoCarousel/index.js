@@ -28,6 +28,7 @@ const CustomCarousel = ({ urls }) => {
   });
 
   const styles = {
+    ...handlers,
     width: "100%",
     height: "100%",
     style: {
@@ -107,7 +108,6 @@ const CustomCarousel = ({ urls }) => {
       tabIndex="0"
       onKeyDown={arrowKeysHandler}
     >
-     
       <div
         className={classnames("position-relative", "w-100")}
         style={{ height: "90%" }}
